@@ -4,11 +4,8 @@
 [metadata]
 groups = ["default"]
 strategy = ["inherit_metadata"]
-lock_version = "4.5.0"
-content_hash = "sha256:4e40102ec8e35d3713fe0415a8f5130128d38841e0cefac57baa381378687826"
-
-[[metadata.targets]]
-requires_python = "==3.11.*"
+lock_version = "4.4.1"
+content_hash = "sha256:cbe91c94d5e46cc0331bcb7edcbe39eb7efa9aeedbe2dbf502d288aac6e1a010"
 
 [[package]]
 name = "annotated-types"
@@ -16,9 +13,6 @@ version = "0.7.0"
 requires_python = ">=3.8"
 summary = "Reusable constraint types to use with typing.Annotated"
 groups = ["default"]
-dependencies = [
-    "typing-extensions>=4.0.0; python_version < \"3.9\"",
-]
 files = [
     {file = "annotated_types-0.7.0-py3-none-any.whl", hash = "sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53"},
     {file = "annotated_types-0.7.0.tar.gz", hash = "sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89"},
@@ -31,14 +25,44 @@ requires_python = ">=3.9"
 summary = "High level compatibility layer for multiple asynchronous event loop implementations"
 groups = ["default"]
 dependencies = [
-    "exceptiongroup>=1.0.2; python_version < \"3.11\"",
     "idna>=2.8",
     "sniffio>=1.1",
-    "typing-extensions>=4.1; python_version < \"3.11\"",
 ]
 files = [
     {file = "anyio-4.6.0-py3-none-any.whl", hash = "sha256:c7d2e9d63e31599eeb636c8c5c03a7e108d73b345f064f1c19fdc87b79036a9a"},
     {file = "anyio-4.6.0.tar.gz", hash = "sha256:137b4559cbb034c477165047febb6ff83f390fc3b20bf181c1fc0a728cb8beeb"},
+]
+
+[[package]]
+name = "boto3"
+version = "1.35.24"
+requires_python = ">=3.8"
+summary = "The AWS SDK for Python"
+groups = ["default"]
+dependencies = [
+    "botocore<1.36.0,>=1.35.24",
+    "jmespath<2.0.0,>=0.7.1",
+    "s3transfer<0.11.0,>=0.10.0",
+]
+files = [
+    {file = "boto3-1.35.24-py3-none-any.whl", hash = "sha256:97fcc1a14cbc759e4ba9535ced703a99fcf652c9c4b8dfcd06f292c80551684b"},
+    {file = "boto3-1.35.24.tar.gz", hash = "sha256:be7807f30f26d6c0057e45cfd09dad5968e664488bf4f9138d0bb7a0f6d8ed40"},
+]
+
+[[package]]
+name = "botocore"
+version = "1.35.24"
+requires_python = ">=3.8"
+summary = "Low-level, data-driven core of boto 3."
+groups = ["default"]
+dependencies = [
+    "jmespath<2.0.0,>=0.7.1",
+    "python-dateutil<3.0.0,>=2.1",
+    "urllib3!=2.2.0,<3,>=1.25.4; python_version >= \"3.10\"",
+]
+files = [
+    {file = "botocore-1.35.24-py3-none-any.whl", hash = "sha256:eb9ccc068255cc3d24c36693fda6aec7786db05ae6c2b13bcba66dce6a13e2e3"},
+    {file = "botocore-1.35.24.tar.gz", hash = "sha256:1e59b0f14f4890c4f70bd6a58a634b9464bed1c4c6171f87c8795d974ade614b"},
 ]
 
 [[package]]
@@ -84,25 +108,18 @@ version = "8.1.7"
 requires_python = ">=3.7"
 summary = "Composable command line interface toolkit"
 groups = ["default"]
-dependencies = [
-    "colorama; platform_system == \"Windows\"",
-    "importlib-metadata; python_version < \"3.8\"",
-]
 files = [
     {file = "click-8.1.7-py3-none-any.whl", hash = "sha256:ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28"},
     {file = "click-8.1.7.tar.gz", hash = "sha256:ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de"},
 ]
 
 [[package]]
-name = "colorama"
-version = "0.4.6"
-requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
-summary = "Cross-platform colored terminal text."
+name = "crcmod"
+version = "1.7"
+summary = "CRC Generator"
 groups = ["default"]
-marker = "platform_system == \"Windows\" or sys_platform == \"win32\""
 files = [
-    {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
-    {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+    {file = "crcmod-1.7.tar.gz", hash = "sha256:dc7051a0db5f2bd48665a990d3ec1cc305a466a77358ca4492826f41f283601e"},
 ]
 
 [[package]]
@@ -205,9 +222,6 @@ version = "0.14.0"
 requires_python = ">=3.7"
 summary = "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
 groups = ["default"]
-dependencies = [
-    "typing-extensions; python_version < \"3.8\"",
-]
 files = [
     {file = "h11-0.14.0-py3-none-any.whl", hash = "sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761"},
     {file = "h11-0.14.0.tar.gz", hash = "sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d"},
@@ -289,6 +303,17 @@ files = [
 ]
 
 [[package]]
+name = "jmespath"
+version = "1.0.1"
+requires_python = ">=3.7"
+summary = "JSON Matching Expressions"
+groups = ["default"]
+files = [
+    {file = "jmespath-1.0.1-py3-none-any.whl", hash = "sha256:02e2e4cc71b5bcab88332eebf907519190dd9e6e82107fa7f83b1003a6252980"},
+    {file = "jmespath-1.0.1.tar.gz", hash = "sha256:90261b206d6defd58fdd5e85f478bf633a2901798906be2ad389150c5c60edbe"},
+]
+
+[[package]]
 name = "markdown-it-py"
 version = "3.0.0"
 requires_python = ">=3.8"
@@ -342,7 +367,6 @@ groups = ["default"]
 dependencies = [
     "annotated-types>=0.6.0",
     "pydantic-core==2.23.4",
-    "typing-extensions>=4.12.2; python_version >= \"3.13\"",
     "typing-extensions>=4.6.1; python_version < \"3.13\"",
 ]
 files = [
@@ -387,6 +411,30 @@ files = [
 ]
 
 [[package]]
+name = "pypng"
+version = "0.20220715.0"
+summary = "Pure Python library for saving and loading PNG images"
+groups = ["default"]
+files = [
+    {file = "pypng-0.20220715.0-py3-none-any.whl", hash = "sha256:4a43e969b8f5aaafb2a415536c1a8ec7e341cd6a3f957fd5b5f32a4cfeed902c"},
+    {file = "pypng-0.20220715.0.tar.gz", hash = "sha256:739c433ba96f078315de54c0db975aee537cbc3e1d0ae4ed9aab0ca1e427e2c1"},
+]
+
+[[package]]
+name = "python-dateutil"
+version = "2.9.0.post0"
+requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+summary = "Extensions to the standard Python datetime module"
+groups = ["default"]
+dependencies = [
+    "six>=1.5",
+]
+files = [
+    {file = "python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3"},
+    {file = "python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427"},
+]
+
+[[package]]
 name = "python-dotenv"
 version = "1.0.1"
 requires_python = ">=3.8"
@@ -428,6 +476,21 @@ files = [
 ]
 
 [[package]]
+name = "qrcode"
+version = "7.4.2"
+requires_python = ">=3.7"
+summary = "QR Code image generator"
+groups = ["default"]
+dependencies = [
+    "pypng",
+    "typing-extensions",
+]
+files = [
+    {file = "qrcode-7.4.2-py3-none-any.whl", hash = "sha256:581dca7a029bcb2deef5d01068e39093e80ef00b4a61098a2182eac59d01643a"},
+    {file = "qrcode-7.4.2.tar.gz", hash = "sha256:9dd969454827e127dbd93696b20747239e6d540e082937c90f14ac95b30f5845"},
+]
+
+[[package]]
 name = "requests"
 version = "2.32.3"
 requires_python = ">=3.8"
@@ -453,11 +516,24 @@ groups = ["default"]
 dependencies = [
     "markdown-it-py>=2.2.0",
     "pygments<3.0.0,>=2.13.0",
-    "typing-extensions<5.0,>=4.0.0; python_version < \"3.9\"",
 ]
 files = [
     {file = "rich-13.8.1-py3-none-any.whl", hash = "sha256:1760a3c0848469b97b558fc61c85233e3dafb69c7a071b4d60c38099d3cd4c06"},
     {file = "rich-13.8.1.tar.gz", hash = "sha256:8260cda28e3db6bf04d2d1ef4dbc03ba80a824c88b0e7668a0f23126a424844a"},
+]
+
+[[package]]
+name = "s3transfer"
+version = "0.10.2"
+requires_python = ">=3.8"
+summary = "An Amazon S3 Transfer Manager"
+groups = ["default"]
+dependencies = [
+    "botocore<2.0a.0,>=1.33.2",
+]
+files = [
+    {file = "s3transfer-0.10.2-py3-none-any.whl", hash = "sha256:eca1c20de70a39daee580aef4986996620f365c4e0fda6a86100231d62f1bf69"},
+    {file = "s3transfer-0.10.2.tar.gz", hash = "sha256:0711534e9356d3cc692fdde846b4a1e4b0cb6519971860796e6bc4c7aea00ef6"},
 ]
 
 [[package]]
@@ -469,6 +545,17 @@ groups = ["default"]
 files = [
     {file = "shellingham-1.5.4-py2.py3-none-any.whl", hash = "sha256:7ecfff8f2fd72616f7481040475a65b2bf8af90a56c89140852d1120324e8686"},
     {file = "shellingham-1.5.4.tar.gz", hash = "sha256:8dbca0739d487e5bd35ab3ca4b36e11c4078f3a234bfce294b0a0291363404de"},
+]
+
+[[package]]
+name = "six"
+version = "1.16.0"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+summary = "Python 2 and 3 compatibility utilities"
+groups = ["default"]
+files = [
+    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
+    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
 
 [[package]]
@@ -490,7 +577,6 @@ summary = "The little ASGI library that shines."
 groups = ["default"]
 dependencies = [
     "anyio<5,>=3.4.0",
-    "typing-extensions>=3.10.0; python_version < \"3.10\"",
 ]
 files = [
     {file = "starlette-0.38.5-py3-none-any.whl", hash = "sha256:632f420a9d13e3ee2a6f18f437b0a9f1faecb0bc42e1942aa2ea0e379a4c4206"},
@@ -545,7 +631,6 @@ groups = ["default"]
 dependencies = [
     "click>=7.0",
     "h11>=0.8",
-    "typing-extensions>=4.0; python_version < \"3.11\"",
 ]
 files = [
     {file = "uvicorn-0.30.6-py3-none-any.whl", hash = "sha256:65fd46fe3fda5bdc1b03b94eb634923ff18cd35b2f084813ea79d1f103f711b5"},
@@ -560,7 +645,6 @@ requires_python = ">=3.8"
 summary = "The lightning-fast ASGI server."
 groups = ["default"]
 dependencies = [
-    "colorama>=0.4; sys_platform == \"win32\"",
     "httptools>=0.5.0",
     "python-dotenv>=0.13",
     "pyyaml>=5.1",
@@ -619,22 +703,12 @@ files = [
 
 [[package]]
 name = "websockets"
-version = "13.1"
+version = "12.0"
 requires_python = ">=3.8"
 summary = "An implementation of the WebSocket Protocol (RFC 6455 & 7692)"
 groups = ["default"]
 files = [
-    {file = "websockets-13.1-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:61fc0dfcda609cda0fc9fe7977694c0c59cf9d749fbb17f4e9483929e3c48a19"},
-    {file = "websockets-13.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:ceec59f59d092c5007e815def4ebb80c2de330e9588e101cf8bd94c143ec78a5"},
-    {file = "websockets-13.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:c1dca61c6db1166c48b95198c0b7d9c990b30c756fc2923cc66f68d17dc558fd"},
-    {file = "websockets-13.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:308e20f22c2c77f3f39caca508e765f8725020b84aa963474e18c59accbf4c02"},
-    {file = "websockets-13.1-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:62d516c325e6540e8a57b94abefc3459d7dab8ce52ac75c96cad5549e187e3a7"},
-    {file = "websockets-13.1-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:87c6e35319b46b99e168eb98472d6c7d8634ee37750d7693656dc766395df096"},
-    {file = "websockets-13.1-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:5f9fee94ebafbc3117c30be1844ed01a3b177bb6e39088bc6b2fa1dc15572084"},
-    {file = "websockets-13.1-cp311-cp311-musllinux_1_2_i686.whl", hash = "sha256:7c1e90228c2f5cdde263253fa5db63e6653f1c00e7ec64108065a0b9713fa1b3"},
-    {file = "websockets-13.1-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:6548f29b0e401eea2b967b2fdc1c7c7b5ebb3eeb470ed23a54cd45ef078a0db9"},
-    {file = "websockets-13.1-cp311-cp311-win32.whl", hash = "sha256:c11d4d16e133f6df8916cc5b7e3e96ee4c44c936717d684a94f48f82edb7c92f"},
-    {file = "websockets-13.1-cp311-cp311-win_amd64.whl", hash = "sha256:d04f13a1d75cb2b8382bdc16ae6fa58c97337253826dfe136195b7f89f661557"},
-    {file = "websockets-13.1-py3-none-any.whl", hash = "sha256:a9a396a6ad26130cdae92ae10c36af09d9bfe6cafe69670fd3b6da9b07b4044f"},
-    {file = "websockets-13.1.tar.gz", hash = "sha256:a3b3366087c1bc0a2795111edcadddb8b3b59509d5db5d7ea3fdd69f954a8878"},
+    {file = "websockets-12.0-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6e9e7db18b4539a29cc5ad8c8b252738a30e2b13f033c2d6e9d0549b45841c04"},
+    {file = "websockets-12.0-py3-none-any.whl", hash = "sha256:dc284bbc8d7c78a6c69e0c7325ab46ee5e40bb4d50e494d8131a07ef47500e9e"},
+    {file = "websockets-12.0.tar.gz", hash = "sha256:81df9cbcbb6c260de1e007e58c011bfebe2dafc8435107b0537f393dd38c8b1b"},
 ]

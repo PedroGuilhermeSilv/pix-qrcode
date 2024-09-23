@@ -1,14 +1,13 @@
 
 from fastapi import APIRouter
 
-from src.api.controllers.dto.qrcode import RequestGenerateQrCode
+from src.api.controllers.dto.qrcode import RequestGenerateQrCode, ResponseGenerateQrCode
 from src.core.generator import GenerateQRCode
 
 router = APIRouter()
 
-@router.post("/qrcode")
+@router.post("/qrcode", response_model=ResponseGenerateQrCode)
 def read_item(pix: RequestGenerateQrCode):
-    print(pix)
     service = GenerateQRCode(key=pix.key, value=pix.value)
-    url = service.get_qr_code()
-    return {"url": url} 
+    response = service.gerar_qrcode_pix()
+    return ResponseGenerateQrCode(url=response.url, payload=response.payload) 
