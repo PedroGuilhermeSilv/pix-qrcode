@@ -1,0 +1,20 @@
+[project]
+name = "pi"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "guilherme", email = "vinespedro55@gmail.com"},
+]
+dependencies = [
+    "requests>=2.32.3",
+    "fastapi[standard]>=0.115.0",
+    "pydantic>=2.9.2",
+    "uvicorn>=0.30.6",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
