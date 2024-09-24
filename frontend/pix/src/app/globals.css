@@ -25,3 +25,10 @@ body {
     text-wrap: balance;
   }
 }
+
+#qrCode img,
+#qrCode video {
+  max-width: 100%;
+  height: auto;
+  width: 450px;
+}

@@ -4,17 +4,17 @@ import React, { useState } from "react";
 interface ButtonProps {
     children: string;
     isLoad?: boolean;
-    generateQrCode: () => void | Promise<void>;
+    action: () => void | Promise<void>;
 
 }
 
 
-export const Button: React.FC<ButtonProps> = ({ children, isLoad = false, generateQrCode }) => {
+export const Button: React.FC<ButtonProps> = ({ children, isLoad = false, action }) => {
     const [loading, setLoading] = useState(isLoad);
 
     const handleLoading = async () => {
         setLoading(true);
-        await generateQrCode();
+        await action();
         setLoading(false);
 
     };

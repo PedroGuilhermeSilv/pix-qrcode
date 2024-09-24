@@ -73,7 +73,7 @@ class GenerateQRCode():
             file_url = self.upload_to_s3(nome_arquivo)
             return ResponseGeneratePix(url=file_url, payload=payload)
         except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+            raise e
 
     def upload_to_s3(self, nome_arquivo: str) -> str:
         s3 = boto3.resource(
@@ -82,8 +82,6 @@ class GenerateQRCode():
             aws_secret_access_key=os.getenv("S3_KEY_SECRET"),
             endpoint_url='https://s3.tebi.io'
         )
-        for bucket in s3.buckets.all():
-            print(bucket.name)
         data = open(nome_arquivo, 'rb')
         s3.Bucket(os.getenv("S3_NAME")).put_object(
             Key=nome_arquivo, 
