@@ -2,8 +2,8 @@ from pydantic import BaseModel
 
 
 class RequestGenerateQrCode(BaseModel):
-    key: str
-    value: str
+    key: str | None
+    value: str | None
 
 
 class ResponseGenerateQrCode(BaseModel):

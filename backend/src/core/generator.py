@@ -56,7 +56,7 @@ class GenerateQRCode():
     
     def gerar_qrcode_pix(self)->ResponseGeneratePix:
         payload = self.gerar_payload_pix()
-        nome_arquivo = f"{self.key}.png"
+        nome_arquivo = f"{self.key+self.value}.png"
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
