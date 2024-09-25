@@ -1,5 +1,5 @@
-from fastapi import APIRouter
-from fastapi.responses import FileResponse
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
 
 from src.core.get_qr_code import GetQrCode
 
@@ -10,4 +10,9 @@ def read_item(file_name: str):
     service = GetQrCode(file_name=file_name)
     local_file_path = service.download_from_s3(file_name)
     
-    return FileResponse(local_file_path, media_type='application/octet-stream', filename=f"{file_name}")
+    try:
+        file = open(local_file_path, mode="rb")
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="File not found")
+
+    return StreamingResponse(file, media_type='image/png', headers={"Content-Disposition": f"attachment; filename={file_name}"})        
