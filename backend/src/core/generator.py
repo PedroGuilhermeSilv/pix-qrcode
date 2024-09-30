@@ -14,6 +14,7 @@ dotenv.load_dotenv()
 class GenerateQRCode():
     key: str
     value: str
+    image_url: str = ""
     name_receiver: str = "N"
     city_receiver: str = "C"
 
