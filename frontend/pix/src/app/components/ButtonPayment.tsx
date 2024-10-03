@@ -9,11 +9,12 @@ interface ButtonPaymentProps {
     template: Product;
 }
 
-export const ButtonPayment = <T,>({ children, isLoad = false, action, template }: ButtonPaymentProps) => {
+export const ButtonPayment = ({ children, isLoad = false, action, template }: ButtonPaymentProps) => {
     const [loading, setLoading] = useState(isLoad);
 
     const handleLoading = async () => {
         setLoading(true);
+        console.log("cheguei aqui");
         await action(template);
         setLoading(false);
     };
