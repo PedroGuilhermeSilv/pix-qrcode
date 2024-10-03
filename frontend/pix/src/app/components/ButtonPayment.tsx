@@ -1,18 +1,20 @@
 "use client";
 import { useState } from "react";
+import { Product } from "../@types/products";
 
-interface ButtonProps {
+interface ButtonPaymentProps {
     children: string;
     isLoad?: boolean;
-    action: () => void | Promise<void>;
+    action: (template: Product) => void | Promise<void>;
+    template: Product;
 }
 
-export const Button = <T,>({ children, isLoad = false, action }: ButtonProps) => {
+export const ButtonPayment = <T,>({ children, isLoad = false, action, template }: ButtonPaymentProps) => {
     const [loading, setLoading] = useState(isLoad);
 
     const handleLoading = async () => {
         setLoading(true);
-        await action();
+        await action(template);
         setLoading(false);
     };
 

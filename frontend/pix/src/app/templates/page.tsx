@@ -1,4 +1,5 @@
-import { CarouselHome, ListProducts } from "../components/Carousel";
+import { ListProducts } from "../@types/products";
+import { CarouselHome } from "../components/Carousel";
 import { ApiService } from "../service/apiService";
 
 

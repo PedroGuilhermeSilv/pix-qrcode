@@ -1,6 +1,8 @@
 "use client";
 import { loadStripe } from "@stripe/stripe-js";
+import { ListProducts, Product } from "../@types/products";
 import { ApiService } from "../service/apiService";
+import { ButtonPayment } from "./ButtonPayment";
 import { Card, CardContent } from "./ui/card";
 import {
     Carousel,
@@ -10,34 +12,7 @@ import {
     CarouselPrevious,
 } from "./ui/carousel";
 
-export type Product = {
-    id: string;
-    object: string;
-    active: boolean;
-    created: number;
-    default_price: string;
-    description: string;
-    images: string[];
-    marketing_features: string[];
-    livemode: boolean;
-    metadata: Record<string, any>;
-    name: string;
-    package_dimensions?: Record<string, any>;
-    shippable?: string;
-    statement_descriptor?: string;
-    tax_code?: string;
-    unit_label?: string;
-    updated: number;
-    url?: string;
-    unit_amount?: number;
-};
 
-export type ListProducts = {
-    object: string;
-    url: string;
-    has_more: boolean;
-    data: Product[];
-};
 
 export type SessionCheckout = {
     session_id: string;
@@ -95,17 +70,19 @@ export const CarouselHome = ({ data }: ListProducts) => {
                             <div className="p-1">
                                 <Card className="flex flex-col ">
                                     <CardContent className="flex aspect-square items-center justify-center p-6">
-                                        <a
-                                            onClick={(event) => {
-                                                event.preventDefault();
-                                                handleTemplateClick(template);
-                                            }}
-                                            href=""
-                                        >
-                                            <img src={template.images[0]} alt="" />
-                                        </a>
+
+                                        <img src={template.images[0]} alt="" />
+
                                     </CardContent>
-                                    <h1 className="text-center">{formatPrice(template.unit_amount!)}</h1>
+                                    <div className="flex items-center justify-between pr-6 pl-6 pb-3">
+                                        <span className="text-3xl font-bold text-gray-900 dark:text-white">{formatPrice(template.unit_amount!)}</span>
+                                        <ButtonPayment
+                                            action={() => handleTemplateClick(template)}
+                                            children="Comprar"
+                                            template={template}
+
+                                        />
+                                    </div>
                                 </Card>
                             </div>
                         </CarouselItem>
