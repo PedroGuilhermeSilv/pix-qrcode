@@ -1,21 +1,19 @@
 "use client";
 import { useState } from "react";
-import { Product } from "../@types/products";
+import { UserLoginInput } from "../@types/user";
 
-interface ButtonPaymentProps {
+interface ButtonLoginProps {
     children: string;
-    isLoad?: boolean;
-    action: (template: Product) => void | Promise<void>;
-    template: Product;
+    action: (user: UserLoginInput) => void | Promise<void>;
+    user: UserLoginInput;
 }
 
-export const ButtonPayment = ({ children, isLoad = false, action, template }: ButtonPaymentProps) => {
-    const [loading, setLoading] = useState(isLoad);
+export const ButtonLogin = ({ action, children, user }: ButtonLoginProps) => {
+    const [loading, setLoading] = useState(false);
 
     const handleLoading = async () => {
         setLoading(true);
-        console.log("cheguei aqui");
-        await action(template);
+        await action(user);
         setLoading(false);
     };
 

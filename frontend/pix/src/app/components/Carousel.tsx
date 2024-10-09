@@ -1,6 +1,10 @@
 "use client";
 import { loadStripe } from "@stripe/stripe-js";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { ListProducts, Product } from "../@types/products";
+import { saveSessionId } from "../lib/actions";
+import { formatPrice } from "../lib/utils";
 import { ApiService } from "../service/apiService";
 import { ButtonPayment } from "./ButtonPayment";
 import { Card, CardContent } from "./ui/card";
@@ -9,24 +13,39 @@ import {
     CarouselContent,
     CarouselItem,
     CarouselNext,
-    CarouselPrevious,
+    CarouselPrevious
 } from "./ui/carousel";
-
-
 
 export type SessionCheckout = {
     session_id: string;
 };
 
+const ProductCard = ({ template, onBuyClick }: { template: Product; onBuyClick: (template: Product) => Promise<void> }) => (
+    <Card className="flex flex-col">
+        <CardContent className="flex aspect-square items-center justify-center p-6">
+            <img className="w-full border-2 border-gray-300 rounded-xl" src={template.images[0]} alt={template.name} />
+        </CardContent>
+        <div className="flex flex-col gap-2 pl-4 pr-4 ">
+            <span className="text-3xl font-bold text-gray-900 dark:text-white">{formatPrice(template.unit_amount!)}</span>
+            <ButtonPayment
+                action={() => onBuyClick(template)}
+                children="Comprar"
+                template={template}
+            />
+        </div>
+    </Card>
+);
+
 export const CarouselHome = ({ data }: ListProducts) => {
-    const formatPrice = (priceInCents: number, currency: string = 'BRL'): string => {
-        const price = priceInCents / 100;
-        return new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: currency,
-        }).format(price);
-    };
-    const handleTemplateClick = async (template: Product) => {
+    const router = useRouter();
+
+    const handleTemplateClick = useCallback(async (template: Product) => {
+        const sessionId = localStorage.getItem('sessionId');
+        if (!sessionId) {
+            router.push("/login");
+            return;
+        }
+
         try {
             const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
             const request = new ApiService();
@@ -43,6 +62,7 @@ export const CarouselHome = ({ data }: ListProducts) => {
             });
 
             if (response && response.session_id) {
+                saveSessionId(response.session_id);
                 const result = await stripe?.redirectToCheckout({
                     sessionId: response.session_id,
                 });
@@ -54,42 +74,26 @@ export const CarouselHome = ({ data }: ListProducts) => {
         } catch (error) {
             console.error("Error creating session:", error);
         }
-    };
+    }, [router]);
 
     return (
-        <div className="w-full max-w-[1200px] mx-auto">
+        <div className="w-full max-w-[1200px] p-3.5 relative">
             <Carousel
                 opts={{
                     align: "start",
+                    loop: true,
                 }}
-                className="w-full max-w-[1200px]"
+                className=""
             >
                 <CarouselContent>
                     {data.map((template) => (
                         <CarouselItem key={template.id} className="md:basis-1/2 lg:basis-1/3">
-                            <div className="p-1">
-                                <Card className="flex flex-col ">
-                                    <CardContent className="flex aspect-square items-center justify-center p-6">
-
-                                        <img src={template.images[0]} alt="" />
-
-                                    </CardContent>
-                                    <div className="flex items-center justify-between pr-6 pl-6 pb-3">
-                                        <span className="text-3xl font-bold text-gray-900 dark:text-white">{formatPrice(template.unit_amount!)}</span>
-                                        <ButtonPayment
-                                            action={() => handleTemplateClick(template)}
-                                            children="Comprar"
-                                            template={template}
-
-                                        />
-                                    </div>
-                                </Card>
-                            </div>
+                            <ProductCard template={template} onBuyClick={handleTemplateClick} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
+                <CarouselNext className="absolute -right-4 top-1/2 transform -translate-y-1/2" />
+                <CarouselPrevious className="absolute -left-4 md:-left-9 top-1/2 transform -translate-y-1/2" />
             </Carousel>
         </div>
     );

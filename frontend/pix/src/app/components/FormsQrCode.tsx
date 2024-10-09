@@ -5,7 +5,7 @@ import { Button } from "./Button";
 import TextInput from "./TextInput";
 
 export type ResponseQrCode = {
-    url: string;
+    image_url: string;
     payload: string;
 };
 
@@ -30,16 +30,15 @@ export const FormsQrCode = () => {
             key: key,
             value: formattedValue,
         };
-        console.log(JSON.stringify(request));
-        const response = await apiService.post<ResponseQrCode>(`${process.env.NEXT_PUBLIC_API_HOST}/qrcode`, {
+        const response = await apiService.post<ResponseQrCode>(`${process.env.NEXT_PUBLIC_API_HOST}/pix`, {
             body: JSON.stringify(request),
             headers: {
                 "Content-Type": "application/json",
             },
         });
-        console.log(response);
-        if (response.url) {
-            setUrl(response.url)
+        if (response.status === 200) {
+            console.log(response.data);
+            setUrl(response.data.image_url);
             setQrCodeisGenerated(true);
             setLoading(false);
 
@@ -59,9 +58,7 @@ export const FormsQrCode = () => {
             responseType: "blob",
 
         });
-        console.log("estou aqui");
-        console.log(response);
-        const blob = new Blob([response], { type: "image/png" });
+        const blob = new Blob([response.data], { type: "image/png" });
         const downloadUrl = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = downloadUrl;
@@ -71,11 +68,9 @@ export const FormsQrCode = () => {
         a.remove();
 
 
-
-
     };
     const Form = (
-        <div className={`${qrCodeisGenerated ? "grid grid-rows-1 grid-flow-cols gap-1 md:grid-flow-col md:grid-rows- md:gap-4 md:items-center" : ""}`}>
+        <div className={`${qrCodeisGenerated ? "grid grid-rows-1 grid-flow-cols  gap-1 md:grid-flow-col md:grid-rows- md:gap-4 md:items-center" : ""}`}>
             <form className="md:row-span-2 md:-row-start-3 ">
                 <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Basta passar sua chave e o valor</p>
                 <div className="flex flex-row w-100 gap-3 pb-3">
@@ -111,7 +106,7 @@ export const FormsQrCode = () => {
                         <div className="grow card bg-base-100 md:w-max-450 shadow-xl ">
                             <figure className="px-0 md:p-0">
                                 <img
-                                    src={url ? url : "https://s3.tebi.io/pix/pedromoura%40hotmail.com.png"}
+                                    src={url}
                                     alt="qrcode"
                                     className="rounded-t-xl w-max-450" />
                             </figure>
