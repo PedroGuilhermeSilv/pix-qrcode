@@ -2,8 +2,9 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { toast } from "sonner";
 import { ListProducts, Product } from "../@types/products";
-import { saveSessionId } from "../lib/actions";
+import { isAutenticated, saveSessionId } from "../lib/actions";
 import { formatPrice } from "../lib/utils";
 import { ApiService } from "../service/apiService";
 import { ButtonPayment } from "./ButtonPayment";
@@ -15,7 +16,6 @@ import {
     CarouselNext,
     CarouselPrevious
 } from "./ui/carousel";
-
 export type SessionCheckout = {
     session_id: string;
 };
@@ -40,8 +40,8 @@ export const CarouselHome = ({ data }: ListProducts) => {
     const router = useRouter();
 
     const handleTemplateClick = useCallback(async (template: Product) => {
-        const sessionId = localStorage.getItem('sessionId');
-        if (!sessionId) {
+        const loged = await isAutenticated();
+        if (!loged) {
             router.push("/login");
             return;
         }
@@ -61,18 +61,18 @@ export const CarouselHome = ({ data }: ListProducts) => {
                 },
             });
 
-            if (response && response.session_id) {
-                saveSessionId(response.session_id);
+            if (response && response.data.session_id) {
+                saveSessionId(response.data.session_id);
                 const result = await stripe?.redirectToCheckout({
-                    sessionId: response.session_id,
+                    sessionId: response.data.session_id,
                 });
 
                 if (result?.error) {
-                    console.error(result.error.message);
+                    toast.error("Erro ao criar sessão");
                 }
             }
         } catch (error) {
-            console.error("Error creating session:", error);
+            toast.error("Erro ao criar sessão");
         }
     }, [router]);
 
