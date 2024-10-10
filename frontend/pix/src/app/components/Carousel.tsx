@@ -58,6 +58,7 @@ export const CarouselHome = ({ data }: ListProducts) => {
                 }),
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
             });
 

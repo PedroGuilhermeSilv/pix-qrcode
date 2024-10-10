@@ -1,11 +1,22 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { isAutenticated , desloged } from "../lib/actions";
 
 export const Header = () => {
     const pathName = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const authStatus = await isAutenticated();
+            setIsAuthorized(authStatus!);
+        };
+
+        checkAuth();
+    }, []);
 
     const style = "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent";
     const styledFocus = "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500";
@@ -35,15 +46,31 @@ export const Header = () => {
                 </button>
                 <div className={`${isMenuOpen ? 'absolute top-full left-0 right-0' : ' hidden transition-all delay-100'} w-full md:block md:w-auto md:relative`} id="navbar-default">
                     <ul className="font-medium flex flex-col mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+
                         <li>
                             <Link onClick={() => setIsMenuOpen(false)} href="/" className={pathName == "/" ? styledFocus : style} aria-current="page">Home</Link>
                         </li>
                         <li>
                             <Link onClick={() => setIsMenuOpen(false)} href="/templates" className={pathName == "/templates" ? styledFocus : style}>Templates</Link>
                         </li>
-                        <li>
-                            <Link onClick={() => setIsMenuOpen(false)} href="/login" className={pathName == "/login" ? styledFocus : style}>Login</Link>
-                        </li>
+
+                        {
+                            isAuthorized ? (
+                                <>
+                                    <li>
+                                        <Link onClick={() => setIsMenuOpen(false)} href="/my-list" className={pathName == "/my-list" ? styledFocus : style}>Minha Lista</Link>
+                                    </li>
+                                    <li>
+                                        <Link onClick={() => setIsAuthorized(false)} href="/login" className={pathName == "/login" ? styledFocus : style}>Sair</Link>
+                                    </li>
+                                </>
+                            ) : (
+
+                                <li>
+                                    <Link onClick={() => setIsMenuOpen(false)} href="/login" className={pathName == "/login" ? styledFocus : style}>Login</Link>
+                                </li>
+                            )
+                        }
                     </ul>
                 </div>
             </div>

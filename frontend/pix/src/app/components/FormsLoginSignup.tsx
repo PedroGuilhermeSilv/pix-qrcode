@@ -47,7 +47,7 @@ export const FormsLogin = () => {
                 },
             });
             toast.success("Login realizado com sucesso");
-            saveInLocalStorage("token_access", response.data.token);
+            saveInLocalStorage("token", response.data.token);
             router.push("/");
 
 

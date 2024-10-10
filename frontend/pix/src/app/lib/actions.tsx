@@ -11,13 +11,18 @@ export function saveSessionId(session_id: string) {
 
 export function saveTokenAccess(token: string) {
     if (typeof window !== 'undefined') {
-        localStorage.setItem('token_access', token);
+        localStorage.setItem('token', token);
     }
 }
 
 export function saveInLocalStorage(key: string, value: string) {
     if (typeof window !== 'undefined') {
         localStorage.setItem(key, value);
+    }
+}
+export function desloged() {
+    if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
     }
 }
 
@@ -37,7 +42,7 @@ export function useGetSessionId() {
 export async function isAutenticated() {
     const apiService = new ApiService();
     if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('token_access');
+        const token = localStorage.getItem('token');
         if (token) {
             const response = await apiService.post<ResponseVerifyToken>(`${process.env.NEXT_PUBLIC_API_HOST}/auth/verify`,
                 {
