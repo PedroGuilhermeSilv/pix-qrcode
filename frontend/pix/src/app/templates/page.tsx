@@ -1,6 +1,6 @@
 
 import { ListProducts } from "../@types/products";
-import { CarouselHome } from "../components/Carousel";
+import { CarouselHome } from "../components/CarouselHome";
 import { ApiService } from "../service/apiService";
 
 

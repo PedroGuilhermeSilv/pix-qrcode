@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 const { fontFamily } = require("tailwindcss/defaultTheme");
-
+const {nextui} = require("@nextui-org/react");
 const config: Config = {
   darkMode: ["class"],
   content: [
@@ -8,7 +8,8 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "app/**/*.{ts,tsx}",
-    "components/**/*.{ts,tsx}"
+    "components/**/*.{ts,tsx}",
+	"./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
   	container: {
@@ -94,7 +95,8 @@ const config: Config = {
   	}
   },
   plugins: [
-    require("tailwindcss-animate")
+    require("tailwindcss-animate"),
+	nextui()
   ],
 };
 

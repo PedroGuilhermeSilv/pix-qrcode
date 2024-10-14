@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Header } from "./components/Header";
-import "./globals.css";
 import { Toaster } from 'sonner';
+import  Header  from "./components/Header";
+import "./globals.css";
+import QrcodeModal from "./components/QrcodeModal";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,10 +34,11 @@ export default function RootLayout({
         <div className="">
           <div className="grid grid-rows-[auto_1fr_auto] h-screen items-center justify-items-center pb-15 xl:p-0 sm:p-0 font-[family-name:var(--font-geist-sans)]" >
             <Header />
-            <main className="flex px-2 flex-col gap-8 row-start-2 items-center sm:items-start ">
+            <main className="flex px-2 flex-col gap-8 md:row-start-2 items-center ">
               {children}
+              <QrcodeModal />
             </main>
-              <Toaster richColors /> 
+            <Toaster richColors />
             <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
             </footer>
           </div>

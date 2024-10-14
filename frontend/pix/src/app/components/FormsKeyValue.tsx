@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ApiService } from "../service/apiService";
 import { Button } from "./Button";
 import TextInput from "./TextInput";
+import useQrcodeModal from "./hooks/useQrcodeModal";
 
 
 
@@ -14,11 +15,11 @@ export type ResponseQrCode = {
 interface FormsQrCodeProps {
     childrenButton: string;
     styledButton: string;
-
 }
 
-export const FormsQrCode = ({childrenButton, styledButton}:FormsQrCodeProps) => {
+export const FormsKeyValue = ({childrenButton, styledButton}:FormsQrCodeProps) => {
     const [qrCodeisGenerated, setQrCodeisGenerated] = useState(false);
+    const qrcodeModal = useQrcodeModal();
     const [key, setKey] = useState("");
     const [value, setValue] = useState("");
     const [url, setUrl] = useState("");
@@ -26,28 +27,14 @@ export const FormsQrCode = ({childrenButton, styledButton}:FormsQrCodeProps) => 
     const apiService = new ApiService();
 
 
-    const generateQrCode = async () => {
+    const paymentQrCode = async () => {
         const formattedValue = value.replace(",", ".").replace("R$", "").trim()
         setLoading(true);
         const request = {
             key: key,
             value: formattedValue,
         };
-        const response = await apiService.post<ResponseQrCode>(`${process.env.NEXT_PUBLIC_API_HOST}/pix`, {
-            body: JSON.stringify(request),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        if (response.status === 200) {
-            console.log(response.data);
-            setUrl(response.data.image_url);
-            setQrCodeisGenerated(true);
-            setLoading(false);
-
-        } else {
-            alert("Erro ao gerar o QRCode");
-        }
+        qrcodeModal.onBuyClick(request);
     };
 
 

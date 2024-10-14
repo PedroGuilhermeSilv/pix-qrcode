@@ -7,6 +7,8 @@ import { ResponseLogin, ResponseSignUp } from "../@types/login";
 import { saveInLocalStorage } from "../lib/actions";
 import { ApiService } from "../service/apiService";
 import { ButtonLogin } from "./ButtonLogin";
+import useAuthStore from "./hooks/useAuth";
+
 
 
 export const FormsLogin = () => {
@@ -16,6 +18,7 @@ export const FormsLogin = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLogin, setIsLogin] = useState(true);
     const apiService = new ApiService();
+    const useAuth = useAuthStore();
 
     const handleToggleForm = () => {
         setIsLogin(!isLogin);
@@ -48,13 +51,14 @@ export const FormsLogin = () => {
             });
             toast.success("Login realizado com sucesso");
             saveInLocalStorage("token", response.data.token);
+            useAuth.login(response.data.token);
+
             router.push("/");
 
 
         }
         catch (error) {
             toast.error("Dados inválidos");
-            console.log(error);
 
         }
 

@@ -1,5 +1,5 @@
 "use client";
-import { loadStripe } from "@stripe/stripe-js";
+
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "sonner";
@@ -7,7 +7,7 @@ import { ListProducts, Product } from "../@types/products";
 import { isAutenticated, saveSessionId } from "../lib/actions";
 import { formatPrice } from "../lib/utils";
 import { ApiService } from "../service/apiService";
-import { ButtonPayment } from "./ButtonPayment";
+
 import { Card, CardContent } from "./ui/card";
 import {
     Carousel,
@@ -16,6 +16,8 @@ import {
     CarouselNext,
     CarouselPrevious
 } from "./ui/carousel";
+import useQrcodeModal from "./hooks/useQrcodeModal";
+import { Button } from "./Button";
 export type SessionCheckout = {
     session_id: string;
 };
@@ -27,9 +29,10 @@ const ProductCard = ({ template, onBuyClick }: { template: Product; onBuyClick: 
         </CardContent>
         <div className="flex flex-col gap-2 pl-4 pr-4 ">
             <span className="text-3xl font-bold text-gray-900 dark:text-white">{formatPrice(template.unit_amount!)}</span>
-            <ButtonPayment
+            <Button
+            styled="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                 action={() => onBuyClick(template)}
-                children="Comprar"
+                children="Selecionar"
                 template={template}
             />
         </div>
@@ -38,6 +41,7 @@ const ProductCard = ({ template, onBuyClick }: { template: Product; onBuyClick: 
 
 export const CarouselHome = ({ data }: ListProducts) => {
     const router = useRouter();
+    const useQrcode = useQrcodeModal();
 
     const handleTemplateClick = useCallback(async (template: Product) => {
         const loged = await isAutenticated();
@@ -47,31 +51,34 @@ export const CarouselHome = ({ data }: ListProducts) => {
         }
 
         try {
-            const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
-            const request = new ApiService();
-            const response = await request.post<SessionCheckout>(`${process.env.NEXT_PUBLIC_API_HOST}/stripe/session`, {
-                body: JSON.stringify({
-                    data: [{
-                        price: template.default_price,
-                        quantity: 1,
-                    }]
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
+            useQrcode.open();
 
-            if (response && response.data.session_id) {
-                saveSessionId(response.data.session_id);
-                const result = await stripe?.redirectToCheckout({
-                    sessionId: response.data.session_id,
-                });
 
-                if (result?.error) {
-                    toast.error("Erro ao criar sessão");
-                }
-            }
+            // const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+            // const request = new ApiService();
+            // const response = await request.post<SessionCheckout>(`${process.env.NEXT_PUBLIC_API_HOST}/stripe/session`, {
+            //     body: JSON.stringify({
+            //         data: [{
+            //             price: template.default_price,
+            //             quantity: 1,
+            //         }]
+            //     }),
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            //     },
+            // });
+
+            // if (response && response.data.session_id) {
+            //     saveSessionId(response.data.session_id);
+            //     const result = await stripe?.redirectToCheckout({
+            //         sessionId: response.data.session_id,
+            //     });
+
+            //     if (result?.error) {
+            //         toast.error("Erro ao criar sessão");
+            //     }
+            // }
         } catch (error) {
             toast.error("Erro ao criar sessão");
         }
